@@ -36,7 +36,7 @@
     .card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(160deg,#122130,#0e1924);padding:20px;box-shadow:0 16px 40px #0002}
     .card-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px}
     .provider{display:flex;align-items:center;gap:11px}.provider-icon{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:15px;font-weight:800}
-    .provider-icon.gem{background:#16354a;color:#9bd4ff}.provider-icon.groq{background:#38291e;color:#ffc994}
+    .provider-icon.gem{background:#16354a;color:#9bd4ff}.provider-icon.xai{background:#242326;color:#fff}
     .provider h2{font-size:16px;margin:0}.provider small{display:block;color:var(--muted);font-size:11px;margin-top:1px}
     .toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#c2d0dc;white-space:nowrap}.toggle input{accent-color:var(--mint);width:16px;height:16px}
     .field{display:block;margin:12px 0}.field span{display:block;color:#bdcad5;font-size:12px;margin-bottom:6px}
@@ -111,12 +111,12 @@
     <section class="hero">
       <div class="eyebrow">مختبرك الشخصي لمقارنة الإجابات</div>
       <h1>نفس السؤال.<br>نموذجان. وقرارك أنت.</h1>
-      <p>أرسل الطلب إلى Gemini وGroq بالتوازي، قارن الإجابتين ووقت الاستجابة، ثم قيّم الدقة بنفسك. لا يوجد نموذج آخر يحكم على الإجابات نيابةً عنك.</p>
-      <div class="hero-stats"><span class="pill">01 — Gemini</span><span class="pill">02 — Groq</span><span class="pill">الترتيب: الدقة ثم السرعة</span></div>
+      <p>أرسل الطلب إلى Gemini وxAI بالتوازي، قارن الإجابتين ووقت الاستجابة، ثم قيّم الدقة بنفسك. لا يوجد نموذج آخر يحكم على الإجابات نيابةً عنك.</p>
+      <div class="hero-stats"><span class="pill">01 — Gemini</span><span class="pill">02 — xAI</span><span class="pill">الترتيب: الدقة ثم السرعة</span></div>
     </section>
 
     <div class="notice"><span class="icon" aria-hidden="true">⚠</span><div><strong>القفل ليس خصوصية حقيقية.</strong> الصفحة ومصدرها منشوران على GitHub Pages وقد يفتحهما غيرك؛ رمز الدخول يحجب الواجهة في هذا المتصفّح فقط. لا تستخدم طلبات أو بيانات سرية.</div></div>
-    <div class="notice blue"><span class="icon" aria-hidden="true">ⓘ</span><div><strong>كيف تُعالج البيانات؟</strong> عند الإرسال، يذهب الطلب مباشرةً إلى مزود النموذج المحدد (Google و/أو Groq). التطبيق لا يرسل الطلبات لمخدم وسيط ولا يحفظ المفاتيح أو الطلبات أو الإجابات في التخزين المحلي. Gemini يُطلب منه عدم تخزين التفاعل، لكن سياسات المزود وحدود الاستخدام/التكلفة تنطبق.</div></div>
+    <div class="notice blue"><span class="icon" aria-hidden="true">ⓘ</span><div><strong>كيف تُعالج البيانات؟</strong> عند الإرسال، يذهب الطلب مباشرةً إلى مزود النموذج المحدد (Google و/أو xAI). التطبيق لا يرسل الطلبات لمخدم وسيط ولا يحفظ المفاتيح أو الطلبات أو الإجابات في التخزين المحلي. نرسل <code>store:false</code> لتعطيل حفظ التفاعل لاسترجاعه عبر Responses API؛ لكن وثائق xAI تذكر أن سجلات الطلبات والردود قد تُحتفظ 30 يومًا افتراضيًا لأغراض التدقيق. <a href="https://docs.x.ai/developers/faq/security" target="_blank" rel="noopener noreferrer">تفاصيل سياسة xAI</a>. سياسات المزود وحدود الاستخدام/التكلفة تنطبق.</div></div>
 
     <section class="grid" aria-label="إعدادات النماذج">
       <article class="card">
@@ -126,10 +126,10 @@
         <div class="field-hint">المفتاح يبقى في ذاكرة الصفحة فقط ويُمسح عند إعادة تحميلها. يمكنك تغيير اسم النموذج إذا تغيرت الإتاحة.</div>
       </article>
       <article class="card">
-        <div class="card-head"><div class="provider"><div class="provider-icon groq">Gq</div><div><h2>Groq</h2><small>النموذج الافتراضي: Meta Llama 3.3</small></div></div><label class="toggle"><input id="useGroq" type="checkbox" checked> تضمين</label></div>
-        <label class="field"><span>مفتاح Groq API</span><input class="control" id="groqKey" type="password" placeholder="أدخل المفتاح لهذه الجلسة" autocomplete="off" spellcheck="false"></label>
-        <label class="field"><span>النموذج</span><input class="control" id="groqModel" type="text" value="openai/gpt-oss-20b" autocomplete="off" spellcheck="false"></label>
-        <div class="field-hint">إتاحة النموذج والسعر وحدود الاستخدام تعتمد على حساب Groq وخطته؛ تحقق من لوحة المزود قبل الاستخدام.</div>
+        <div class="card-head"><div class="provider"><div class="provider-icon xai">X</div><div><h2>xAI</h2><small>النموذج الافتراضي: Grok 4.7</small></div></div><label class="toggle"><input id="useXai" type="checkbox" checked> تضمين</label></div>
+        <label class="field"><span>مفتاح xAI API</span><input class="control" id="xaiKey" type="password" placeholder="أدخل المفتاح لهذه الجلسة" autocomplete="off" spellcheck="false"></label>
+        <label class="field"><span>النموذج</span><input class="control" id="xaiModel" type="text" value="grok-4.7" autocomplete="off" spellcheck="false"></label>
+        <div class="field-hint">الاستخدام مدفوع على حساب xAI: حاليًا $2 لكل مليون رمز إدخال و$6 لكل مليون رمز إخراج؛ قد تتغير الأسعار. المفتاح يبقى في ذاكرة الصفحة فقط.</div>
       </article>
     </section>
 
@@ -250,21 +250,22 @@
         if(!text)throw {provider:'Gemini',message:'وصل رد من Gemini لكن لم أستطع استخراج النص. يمكنك فحص اسم النموذج أو صيغة الرد.',elapsed};
         return {id:'gemini-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider:'Gemini',model,text,elapsed,score:null,error:null};
       }
-      async function callGroq(prompt,key,model){
+      async function callXai(prompt,key,model){
         const started=performance.now();
         let response,data;
         try{
-          response=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+          response=await fetch('https://api.x.ai/v1/responses',{
             method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-            body:JSON.stringify({model,messages:[{role:'user',content:prompt}],temperature:0.3,max_completion_tokens:2048,stream:false})
+            body:JSON.stringify({model,input:prompt,store:false})
           });
           data=await response.json().catch(()=>({}));
-        }catch(error){throw {provider:'Groq',message:errorMessage('Groq',null,0),elapsed:(performance.now()-started)/1000}}
+        }catch(error){throw {provider:'xAI',message:errorMessage('xAI',null,0),elapsed:(performance.now()-started)/1000}}
         const elapsed=(performance.now()-started)/1000;
-        if(!response.ok)throw {provider:'Groq',message:errorMessage('Groq',data,response.status),elapsed};
-        const text=data?.choices?.[0]?.message?.content;
-        if(typeof text!=='string'||!text.trim())throw {provider:'Groq',message:'وصل رد من Groq بدون نص قابل للعرض.',elapsed};
-        return {id:'groq-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider:'Groq',model,text:text.trim(),elapsed,score:null,error:null};
+        if(!response.ok)throw {provider:'xAI',message:errorMessage('xAI',data,response.status),elapsed};
+        const outputText=Array.isArray(data?.output)?data.output.flatMap(item=>Array.isArray(item?.content)?item.content.filter(part=>part?.type==='output_text'&&typeof part.text==='string').map(part=>part.text):[]).join('\n'):'';
+        const text=(typeof data?.output_text==='string'?data.output_text:outputText).trim();
+        if(!text)throw {provider:'xAI',message:'وصل رد من xAI بدون نص قابل للعرض.',elapsed};
+        return {id:'xai-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider:'xAI',model,text,elapsed,score:null,error:null};
       }
       function makeError(provider,model,error){return {id:provider.toLowerCase()+'-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider,model,text:'',elapsed:Number.isFinite(error?.elapsed)?error.elapsed:null,score:null,error:error?.message||`${provider}: حدث خطأ غير متوقع.`}}
       function sortedResults(){
@@ -319,7 +320,7 @@
         if(!prompt){setStatus('اكتب الطلب أولًا.',true);$('prompt').focus();return}
         const targets=[];
         if($('useGemini').checked){const key=$('geminiKey').value.trim(),model=$('geminiModel').value.trim();targets.push({provider:'Gemini',key,model,fn:callGemini})}
-        if($('useGroq').checked){const key=$('groqKey').value.trim(),model=$('groqModel').value.trim();targets.push({provider:'Groq',key,model,fn:callGroq})}
+        if($('useXai').checked){const key=$('xaiKey').value.trim(),model=$('xaiModel').value.trim();targets.push({provider:'xAI',key,model,fn:callXai})}
         if(!targets.length){setStatus('فعّل نموذجًا واحدًا على الأقل.',true);return}
         if(targets.some(x=>!x.model)){setStatus('أدخل اسم النموذج لكل مزود مفعّل.',true);return}
         state.running=true;$('sendBtn').disabled=true;$('sendBtn').textContent='جارٍ الإرسال…';
@@ -339,7 +340,7 @@
       }
       $('sendBtn').addEventListener('click',submit);
       $('prompt').addEventListener('keydown',(event)=>{if((event.ctrlKey||event.metaKey)&&event.key==='Enter')submit()});
-      $('clearKeysBtn').addEventListener('click',()=>{$('geminiKey').value='';$('groqKey').value='';setStatus('مُسحت المفاتيح من حقول الصفحة. لا توجد مفاتيح محفوظة محليًا.')});
+      $('clearKeysBtn').addEventListener('click',()=>{$('geminiKey').value='';$('xaiKey').value='';setStatus('مُسحت المفاتيح من حقول الصفحة. لا توجد مفاتيح محفوظة محليًا.')});
       function createReport(){
         const prompt=$('prompt').value.trim();
         const lines=['ميزان — تقرير مقارنة النماذج',`التاريخ: ${new Date().toLocaleString('ar-SA')}`,'','الطلب:',prompt||'(غير متاح)','', 'الترتيب حسب تقييم المستخدم للدقة، ثم السرعة عند التعادل.',''];
