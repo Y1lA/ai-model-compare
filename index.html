@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#09131f">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <title>ميزان — مقارنة نماذج الذكاء الاصطناعي</title>
+  <style>
+    :root{color-scheme:dark;--bg:#08111c;--panel:#101d2a;--panel2:#132333;--line:#233648;--text:#eef5fb;--muted:#9badbd;--mint:#7ce7c5;--blue:#86b7ff;--gold:#ffc86e;--danger:#ff8c8c;--shadow:0 24px 70px #02070d80}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1000px 500px at 85% -10%,#17425b88,transparent 65%),radial-gradient(900px 520px at 5% 14%,#13343b66,transparent 65%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.65;min-height:100vh}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    a{color:var(--mint)}
+    .wrap{width:min(1160px,calc(100% - 36px));margin:auto;padding:28px 0 60px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:26px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:42px;height:42px;border:1px solid #3a5a65;border-radius:14px;display:grid;place-items:center;background:linear-gradient(140deg,#153a43,#102431);color:var(--mint);font-size:23px;font-weight:900;box-shadow:0 8px 24px #0004}
+    .brand strong{font-size:18px;letter-spacing:.02em}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:-3px}
+    .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#0d1924;color:#cfdae5;font-size:12px}
+    .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint)}
+    .link-button{border:0;background:none;color:#b8c7d4;text-decoration:underline;text-underline-offset:3px;font-size:12px;padding:8px}
+    .hero{position:relative;overflow:hidden;border:1px solid #2c4959;border-radius:28px;padding:38px 34px 34px;background:linear-gradient(105deg,#0b1923f2 12%,#0b1923dc 52%,#0b192399),url('assets/ai-network.jpg') center 46%/cover;box-shadow:var(--shadow);margin-bottom:18px}
+    .hero:after{content:"";position:absolute;inset:auto -30px -110px auto;width:330px;height:220px;background:#59e1be18;filter:blur(55px);pointer-events:none}
+    .eyebrow{color:var(--mint);font-size:12px;font-weight:700;letter-spacing:.07em;margin-bottom:10px}
+    h1{font-size:clamp(30px,5vw,52px);line-height:1.16;margin:0 0 13px;letter-spacing:-.04em;max-width:780px}
+    .hero p{color:#c1ced8;max-width:760px;margin:0;font-size:15px}
+    .hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .notice{display:flex;gap:12px;align-items:flex-start;padding:14px 17px;border:1px solid #584d37;border-radius:17px;background:#231e157a;color:#f3dfba;margin:16px 0;font-size:13px}
+    .notice strong{color:#ffe2a5}.notice .icon{font-size:19px;line-height:1.4}
+    .notice.blue{border-color:#28455d;background:#102335a8;color:#c8d8e8}.notice.blue strong{color:#e1efff}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+    .card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(160deg,#122130,#0e1924);padding:20px;box-shadow:0 16px 40px #0002}
+    .card-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px}
+    .provider{display:flex;align-items:center;gap:11px}.provider-icon{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;font-size:15px;font-weight:800}
+    .provider-icon.gem{background:#16354a;color:#9bd4ff}.provider-icon.groq{background:#38291e;color:#ffc994}
+    .provider h2{font-size:16px;margin:0}.provider small{display:block;color:var(--muted);font-size:11px;margin-top:1px}
+    .toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:#c2d0dc;white-space:nowrap}.toggle input{accent-color:var(--mint);width:16px;height:16px}
+    .field{display:block;margin:12px 0}.field span{display:block;color:#bdcad5;font-size:12px;margin-bottom:6px}
+    .control{width:100%;border:1px solid #2a4053;border-radius:12px;background:#09141e;color:var(--text);padding:11px 13px;outline:none;transition:border .18s,box-shadow .18s}
+    .control:focus{border-color:#69cdb4;box-shadow:0 0 0 3px #50d1ae1b}
+    input[type=password],input[type=text]{direction:ltr;text-align:left}
+    .field-hint{font-size:11px;color:#8297a9;margin-top:5px}
+    .model-row{display:grid;grid-template-columns:1fr;gap:0}
+    .prompt-card{padding:21px}
+    .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+    .section-heading h2{font-size:17px;margin:0}.section-heading span{font-size:11px;color:var(--muted)}
+    textarea.control{min-height:160px;resize:vertical;line-height:1.75;direction:rtl;text-align:right}
+    .prompt-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:13px}
+    .microcopy{font-size:11px;color:#8fa2b3}
+    .actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .btn{border:1px solid #344a5d;border-radius:12px;background:#152534;color:#e5edf4;padding:10px 15px;font-weight:650;transition:transform .15s,border .15s,background .15s}
+    .btn:hover{transform:translateY(-1px);border-color:#648094;background:#1b2f40}.btn:disabled{opacity:.55;cursor:wait;transform:none}
+    .btn.primary{border-color:#5dd5b3;background:linear-gradient(110deg,#38bd9d,#57d5b2);color:#082019;box-shadow:0 8px 24px #43d0a52a}
+    .btn.primary:hover{background:linear-gradient(110deg,#52d4b3,#7be7c6)}
+    .btn.small{padding:8px 11px;font-size:12px}
+    .status-line{min-height:24px;color:var(--muted);font-size:12px;margin-top:8px}
+    .results-area{margin-top:20px}.results-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:26px 0 14px;flex-wrap:wrap}
+    .results-title h2{font-size:20px;margin:0}.results-title p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .results-tools{display:flex;gap:8px;flex-wrap:wrap}
+    .ranking-note{padding:10px 14px;border:1px solid #2b4858;border-radius:13px;background:#0e1e29;color:#c4d5df;font-size:12px;margin-bottom:14px}
+    .results-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .result-card{position:relative;min-width:0;border:1px solid #294054;border-radius:20px;background:linear-gradient(165deg,#142434,#0d1823);padding:19px;transition:border .2s,transform .2s}
+    .result-card.winner{border-color:#4cbf9e;box-shadow:0 0 0 1px #4cbf9e27,0 15px 35px #0002}
+    .result-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .rank{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;background:#17372f;color:#a3f2d8;font-size:11px;font-weight:750}
+    .rank.waiting{background:#1a2835;color:#adbcc9}
+    .model-label{font-size:11px;color:#91a7b9;direction:ltr;text-align:left;overflow-wrap:anywhere;margin-top:4px}
+    .time{display:flex;gap:5px;align-items:center;color:#b7c9d6;font-size:12px;white-space:nowrap}
+    .response{white-space:pre-wrap;overflow-wrap:anywhere;min-height:120px;margin:16px 0;padding:15px;border-radius:14px;background:#09141e;color:#e7eff5;font-size:14px;line-height:1.8;max-height:560px;overflow:auto}
+    .response.error{color:#ffb5b5;border:1px solid #5d3535}.response.empty{display:grid;place-items:center;color:#8095a8;font-size:12px;text-align:center}
+    .rating-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #263a4b;padding-top:13px}
+    .rating-row label{font-size:12px;color:#cbd6df}.rating-select{min-width:120px;border:1px solid #385166;background:#0a1620;color:#fff;padding:7px 10px;border-radius:10px}
+    .rate-hint{font-size:10px;color:#8093a5;margin-top:7px}
+    .empty-state{grid-column:1/-1;border:1px dashed #30475a;background:#0c1823;border-radius:18px;padding:28px;text-align:center;color:#93a7b8;font-size:13px}
+    .footer{margin-top:36px;border-top:1px solid #203242;padding-top:17px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#8296a7;font-size:11px}
+    .modal-backdrop{position:fixed;inset:0;z-index:10;background:#040a10e8;display:grid;place-items:center;padding:18px;backdrop-filter:blur(9px)}
+    .modal-backdrop[hidden]{display:none}
+    .lock-panel{width:min(440px,100%);border:1px solid #395467;border-radius:24px;background:linear-gradient(150deg,#142635,#0c1721);padding:26px;box-shadow:0 30px 100px #0009}
+    .lock-panel h2{margin:0 0 7px;font-size:22px}.lock-panel p{margin:0 0 18px;color:#a9bac8;font-size:13px}
+    .lock-note{margin-top:14px;padding:10px 12px;border:1px solid #5c4a31;border-radius:12px;background:#211b13;color:#e9d3ad;font-size:11px}
+    .lock-error{min-height:22px;color:#ffaaaa;font-size:12px;margin:8px 0}
+    @media(max-width:760px){.wrap{width:min(100% - 24px,620px);padding-top:17px}.hero{padding:29px 22px;border-radius:22px}.grid,.results-grid{grid-template-columns:1fr}.topbar{align-items:flex-start}.top-actions{justify-content:flex-end}.card{padding:17px}.prompt-card{padding:17px}.prompt-footer{align-items:flex-start}.actions{width:100%}.actions .btn{flex:1}.results-title{align-items:flex-start}.results-tools{width:100%}.results-tools .btn{flex:1}.result-card{padding:16px}}
+  </style>
+</head>
+<body>
+  <div class="modal-backdrop" id="lockOverlay" hidden>
+    <section class="lock-panel" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+      <div class="logo" aria-hidden="true" style="margin-bottom:16px">م</div>
+      <h2 id="lockTitle">أهلاً بك في ميزان</h2>
+      <p id="lockDescription">أنشئ رمز دخول محليًا لهذه المتصفّح. لن يُرسل الرمز إلى أي خادم.</p>
+      <form id="lockForm">
+        <label class="field"><span id="lockInputLabel">رمز الدخول</span><input class="control" id="passcodeInput" type="password" minlength="4" autocomplete="new-password" required></label>
+        <label class="field" id="confirmField"><span>تأكيد الرمز</span><input class="control" id="confirmPasscode" type="password" minlength="4" autocomplete="new-password" required></label>
+        <button class="btn primary" id="lockSubmit" type="submit" style="width:100%;margin-top:6px">إنشاء رمز محلي</button>
+        <div class="lock-error" id="lockError" aria-live="polite"></div>
+      </form>
+      <div class="lock-note"><strong>للتوضيح:</strong> هذا قفل شكلي للراحة فقط، وليس حماية حقيقية. صفحة GitHub Pages ومصدرها متاحان على الإنترنت؛ لا تضع معلومات حساسة هنا.</div>
+    </section>
+  </div>
+
+  <main class="wrap" id="app" hidden>
+    <header class="topbar">
+      <div class="brand"><div class="logo" aria-hidden="true">م</div><div><strong>ميزان</strong><span>مختبر مقارنة النماذج</span></div></div>
+      <div class="top-actions"><span class="pill"><i class="dot"></i> تقييم يدوي · بلا حكم آلي</span><button class="link-button" id="resetLockBtn" type="button">إعادة ضبط القفل المحلي</button></div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">مختبرك الشخصي لمقارنة الإجابات</div>
+      <h1>نفس السؤال.<br>نموذجان. وقرارك أنت.</h1>
+      <p>أرسل الطلب إلى Gemini وGroq بالتوازي، قارن الإجابتين ووقت الاستجابة، ثم قيّم الدقة بنفسك. لا يوجد نموذج آخر يحكم على الإجابات نيابةً عنك.</p>
+      <div class="hero-stats"><span class="pill">01 — Gemini</span><span class="pill">02 — Groq</span><span class="pill">الترتيب: الدقة ثم السرعة</span></div>
+    </section>
+
+    <div class="notice"><span class="icon" aria-hidden="true">⚠</span><div><strong>القفل ليس خصوصية حقيقية.</strong> الصفحة ومصدرها منشوران على GitHub Pages وقد يفتحهما غيرك؛ رمز الدخول يحجب الواجهة في هذا المتصفّح فقط. لا تستخدم طلبات أو بيانات سرية.</div></div>
+    <div class="notice blue"><span class="icon" aria-hidden="true">ⓘ</span><div><strong>كيف تُعالج البيانات؟</strong> عند الإرسال، يذهب الطلب مباشرةً إلى مزود النموذج المحدد (Google و/أو Groq). التطبيق لا يرسل الطلبات لمخدم وسيط ولا يحفظ المفاتيح أو الطلبات أو الإجابات في التخزين المحلي. Gemini يُطلب منه عدم تخزين التفاعل، لكن سياسات المزود وحدود الاستخدام/التكلفة تنطبق.</div></div>
+
+    <section class="grid" aria-label="إعدادات النماذج">
+      <article class="card">
+        <div class="card-head"><div class="provider"><div class="provider-icon gem">G</div><div><h2>Google Gemini</h2><small>إجابة مباشرة من Gemini API</small></div></div><label class="toggle"><input id="useGemini" type="checkbox" checked> تضمين</label></div>
+        <label class="field"><span>مفتاح Gemini API</span><input class="control" id="geminiKey" type="password" placeholder="أدخل المفتاح لهذه الجلسة" autocomplete="off" spellcheck="false"></label>
+        <label class="field"><span>النموذج</span><input class="control" id="geminiModel" type="text" value="gemini-3.8-flash" autocomplete="off" spellcheck="false"></label>
+        <div class="field-hint">المفتاح يبقى في ذاكرة الصفحة فقط ويُمسح عند إعادة تحميلها. يمكنك تغيير اسم النموذج إذا تغيرت الإتاحة.</div>
+      </article>
+      <article class="card">
+        <div class="card-head"><div class="provider"><div class="provider-icon groq">Gq</div><div><h2>Groq</h2><small>النموذج الافتراضي: Meta Llama 3.3</small></div></div><label class="toggle"><input id="useGroq" type="checkbox" checked> تضمين</label></div>
+        <label class="field"><span>مفتاح Groq API</span><input class="control" id="groqKey" type="password" placeholder="أدخل المفتاح لهذه الجلسة" autocomplete="off" spellcheck="false"></label>
+        <label class="field"><span>النموذج</span><input class="control" id="groqModel" type="text" value="llama-3.3-70b-versatile" autocomplete="off" spellcheck="false"></label>
+        <div class="field-hint">إتاحة النموذج والسعر وحدود الاستخدام تعتمد على حساب Groq وخطته؛ تحقق من لوحة المزود قبل الاستخدام.</div>
+      </article>
+    </section>
+
+    <section class="card prompt-card">
+      <div class="section-heading"><h2>اكتب طلب المقارنة</h2><span>يُرسل النص نفسه لكل نموذج تختاره</span></div>
+      <label class="field" for="prompt"><span>الطلب أو الـ Prompt</span><textarea class="control" id="prompt" placeholder="مثال: اشرح الفرق بين التعلم العميق والتعلم الآلي بمثال بسيط…"></textarea></label>
+      <div class="prompt-footer"><span class="microcopy">لا تُحفظ المحادثة تلقائيًا. التقييمات والنتائج تبقى في الذاكرة حتى إغلاق الصفحة أو تحديثها.</span><div class="actions"><button class="btn" id="clearKeysBtn" type="button">مسح المفاتيح</button><button class="btn primary" id="sendBtn" type="button">إرسال إلى النماذج <span aria-hidden="true">↗</span></button></div></div>
+      <div class="status-line" id="runStatus" aria-live="polite"></div>
+    </section>
+
+    <section class="results-area" aria-live="polite">
+      <div class="results-title"><div><h2>النتائج والترتيب</h2><p>التقييم من 0 إلى 10 من اختيارك. عند التعادل يتقدم الأسرع.</p></div><div class="results-tools"><button class="btn small" id="copyBtn" type="button" disabled>نسخ تقرير المقارنة</button><button class="btn small" id="downloadBtn" type="button" disabled>تصدير ملف نصي</button></div></div>
+      <div class="ranking-note" id="rankingNote">بعد ظهور الإجابات، اختر درجة الدقة لكل واحدة. ستُعاد إعادة ترتيب البطاقات تلقائيًا؛ الإجابات غير المقيمة تظهر بعد المقيمة.</div>
+      <div class="results-grid" id="results"><div class="empty-state">أدخل مفاتيح API واختر النموذجين، ثم أرسل طلبك لبدء المقارنة.</div></div>
+    </section>
+
+    <footer class="footer"><span>ميزان · نسخة أولية تجريبية</span><span>مفاتيحك لا تُحفظ في الكود أو التخزين المحلي · لا توجد خدمة تقييم آلي</span></footer>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+      const LOCK_KEY = 'mizan.local.lock.v1';
+      const $ = (id) => document.getElementById(id);
+      const overlay = $('lockOverlay');
+      const lockForm = $('lockForm');
+      const app = $('app');
+      const errorBox = $('lockError');
+      const lockInput = $('passcodeInput');
+      const confirmInput = $('confirmPasscode');
+      const state = { results: [], running: false };
+
+      function toHex(bytes){return Array.from(new Uint8Array(bytes)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+      async function digest(text){return toHex(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))}
+      function randomSalt(){const b=new Uint8Array(16);crypto.getRandomValues(b);return toHex(b)}
+
+      async function initLock(){
+        let stored=null;
+        try{stored=localStorage.getItem(LOCK_KEY)}catch(e){showLock('تعذر الوصول إلى التخزين المحلي. اسمح به لهذا الموقع ثم أعد المحاولة.');overlay.hidden=false;return}
+        if(!stored){
+          confirmInput.disabled=false;
+          $('lockTitle').textContent='أنشئ رمز دخول محليًا';
+          $('lockDescription').textContent='اختر رمزًا من 4 خانات أو أكثر. يُحفظ تحقق الرمز في هذا المتصفح فقط.';
+          $('lockInputLabel').textContent='رمز الدخول الجديد';
+          $('confirmField').hidden=false;
+          $('lockSubmit').textContent='إنشاء رمز محلي';
+          lockInput.autocomplete='new-password';confirmInput.autocomplete='new-password';
+          overlay.hidden=false;lockInput.focus();return;
+        }
+        confirmInput.disabled=true;
+        $('lockTitle').textContent='أدخل رمز الدخول';
+        $('lockDescription').textContent='هذا الرمز محلي لهذا المتصفح ولا يمكن استعادته من الموقع.';
+        $('lockInputLabel').textContent='رمز الدخول';
+        $('confirmField').hidden=true;
+        $('lockSubmit').textContent='فتح ميزان';
+        lockInput.autocomplete='current-password';
+        overlay.hidden=false;lockInput.focus();
+      }
+      function showLock(message){errorBox.textContent=message||''}
+      lockForm.addEventListener('submit',async(event)=>{
+        event.preventDefault();showLock('');
+        const pass=lockInput.value;
+        if(pass.length<4){showLock('استخدم أربعة أحرف أو أرقام على الأقل.');return}
+        try{
+          const stored=localStorage.getItem(LOCK_KEY);
+          if(!stored){
+            if(pass!==confirmInput.value){showLock('الرمزان غير متطابقين.');return}
+            const salt=randomSalt();
+            localStorage.setItem(LOCK_KEY,JSON.stringify({salt,hash:await digest(salt+pass)}));
+            openApp();return;
+          }
+          const record=JSON.parse(stored);
+          if(await digest(record.salt+pass)!==record.hash){showLock('الرمز غير صحيح.');lockInput.select();return}
+          openApp();
+        }catch(e){showLock('تعذر التحقق من الرمز في هذا المتصفح.');}
+      });
+      function openApp(){overlay.hidden=true;app.hidden=false;lockInput.value='';confirmInput.value=''}
+      $('resetLockBtn').addEventListener('click',()=>{
+        const ok=window.confirm('إعادة ضبط الرمز المحلي؟ سيُحذف تحقق القفل من هذا المتصفح فقط.');
+        if(!ok)return;
+        try{localStorage.removeItem(LOCK_KEY);location.reload()}catch(e){window.alert('تعذر مسح الرمز المحلي.')}
+      });
+
+      const escapeText=(value)=>String(value??'');
+      function getGeminiText(data){
+        if(typeof data?.output_text==='string'&&data.output_text.trim())return data.output_text.trim();
+        const pieces=[];
+        const walk=(node)=>{
+          if(!node)return;
+          if(Array.isArray(node)){node.forEach(walk);return}
+          if(typeof node==='object'){
+            if(node.type==='text'&&typeof node.text==='string')pieces.push(node.text);
+            for(const [key,value] of Object.entries(node))if(key!=='text')walk(value);
+          }
+        };
+        walk(data?.output);if(!pieces.length)walk(data?.steps);
+        return pieces.join('\n').trim();
+      }
+      function errorMessage(provider,data,status){
+        const msg=data?.error?.message||data?.message||data?.detail||'';
+        if(msg)return `${provider}: ${msg}`;
+        if(status===0)return `${provider}: تعذر الاتصال. تحقق من الإنترنت أو سياسة CORS لدى المزود.`;
+        return `${provider}: فشل الطلب (HTTP ${status}). راجع المفتاح والنموذج وحدود الاستخدام.`;
+      }
+      async function callGemini(prompt,key,model){
+        const started=performance.now();
+        let response,data;
+        try{
+          response=await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{
+            method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},
+            body:JSON.stringify({model,input:prompt,store:false})
+          });
+          data=await response.json().catch(()=>({}));
+        }catch(error){throw {provider:'Gemini',message:errorMessage('Gemini',null,0),elapsed:(performance.now()-started)/1000}}
+        const elapsed=(performance.now()-started)/1000;
+        if(!response.ok)throw {provider:'Gemini',message:errorMessage('Gemini',data,response.status),elapsed};
+        const text=getGeminiText(data);
+        if(!text)throw {provider:'Gemini',message:'وصل رد من Gemini لكن لم أستطع استخراج النص. يمكنك فحص اسم النموذج أو صيغة الرد.',elapsed};
+        return {id:'gemini-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider:'Gemini',model,text,elapsed,score:null,error:null};
+      }
+      async function callGroq(prompt,key,model){
+        const started=performance.now();
+        let response,data;
+        try{
+          response=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+            method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+            body:JSON.stringify({model,messages:[{role:'user',content:prompt}],temperature:0.3,max_completion_tokens:2048,stream:false})
+          });
+          data=await response.json().catch(()=>({}));
+        }catch(error){throw {provider:'Groq',message:errorMessage('Groq',null,0),elapsed:(performance.now()-started)/1000}}
+        const elapsed=(performance.now()-started)/1000;
+        if(!response.ok)throw {provider:'Groq',message:errorMessage('Groq',data,response.status),elapsed};
+        const text=data?.choices?.[0]?.message?.content;
+        if(typeof text!=='string'||!text.trim())throw {provider:'Groq',message:'وصل رد من Groq بدون نص قابل للعرض.',elapsed};
+        return {id:'groq-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider:'Groq',model,text:text.trim(),elapsed,score:null,error:null};
+      }
+      function makeError(provider,model,error){return {id:provider.toLowerCase()+'-'+Date.now()+'-'+Math.random().toString(16).slice(2),provider,model,text:'',elapsed:Number.isFinite(error?.elapsed)?error.elapsed:null,score:null,error:error?.message||`${provider}: حدث خطأ غير متوقع.`}}
+      function sortedResults(){
+        return [...state.results].sort((a,b)=>{
+          const aRated=a.score!==null&&!a.error;const bRated=b.score!==null&&!b.error;
+          if(aRated!==bRated)return aRated?-1:1;
+          if(aRated&&bRated&&a.score!==b.score)return b.score-a.score;
+          const at=a.elapsed??Number.POSITIVE_INFINITY;const bt=b.elapsed??Number.POSITIVE_INFINITY;
+          return at-bt;
+        });
+      }
+      function renderResults(){
+        const container=$('results');
+        const ordered=sortedResults();
+        $('copyBtn').disabled=ordered.length===0;
+        $('downloadBtn').disabled=ordered.length===0;
+        if(!ordered.length){container.innerHTML='<div class="empty-state">أدخل مفاتيح API واختر النموذجين، ثم أرسل طلبك لبدء المقارنة.</div>';return}
+        container.replaceChildren();
+        ordered.forEach((item,index)=>{
+          const card=document.createElement('article');card.className='result-card'+(index===0&&item.score!==null&&!item.error?' winner':'');
+          const top=document.createElement('div');top.className='result-top';
+          const left=document.createElement('div');
+          const rank=document.createElement('span');rank.className='rank'+(item.score===null?' waiting':'');
+          rank.textContent=item.error?'تعذّر الرد':item.score===null?'بانتظار تقييم':'الترتيب '+(index+1);
+          const provider=document.createElement('div');provider.style.fontWeight='750';provider.style.marginTop='7px';provider.textContent=item.provider;
+          const model=document.createElement('div');model.className='model-label';model.textContent=item.model;
+          left.append(rank,provider,model);
+          const time=document.createElement('div');time.className='time';time.textContent=item.elapsed===null?'—':`${item.elapsed.toFixed(2)} ث`;top.append(left,time);
+          const response=document.createElement('div');response.className='response'+(item.error?' error':'');
+          response.textContent=item.error?item.error:item.text;
+          const ratingRow=document.createElement('div');ratingRow.className='rating-row';
+          const label=document.createElement('label');label.textContent=item.error?'التقييم غير متاح':'تقييم الدقة يدويًا';
+          const select=document.createElement('select');select.className='rating-select';select.setAttribute('aria-label','درجة الدقة لإجابة '+item.provider);select.disabled=Boolean(item.error);
+          const unset=document.createElement('option');unset.value='';unset.textContent='لم أقيّم بعد';select.append(unset);
+          for(let n=0;n<=10;n++){const option=document.createElement('option');option.value=String(n);option.textContent=`${n} / 10`;select.append(option)}
+          select.value=item.score===null?'':String(item.score);
+          select.addEventListener('change',()=>{item.score=select.value===''?null:Number(select.value);renderResults()});
+          ratingRow.append(label,select);
+          card.append(top,response,ratingRow);
+          if(!item.error){const hint=document.createElement('div');hint.className='rate-hint';hint.textContent='قيّم صحة الإجابة واكتمالها ومدى استجابتها لطلبك.';card.append(hint)}
+          container.append(card);
+        });
+        const ranked=ordered.filter(x=>x.score!==null&&!x.error);
+        if(!ranked.length)$('rankingNote').textContent='لم تُسجّل تقييمًا بعد. اختر درجة الدقة لكل إجابة؛ الترتيب يُحدّث تلقائيًا، والأسرع يتقدم عند تساوي الدرجات.';
+        else if(ranked.length===1)$('rankingNote').textContent=`المتصدّر حاليًا: ${ranked[0].provider} بدرجة ${ranked[0].score}/10. قيّم الإجابة الأخرى لتحسم المقارنة.`;
+        else $('rankingNote').textContent=`المتصدّر حاليًا: ${ranked[0].provider} — ${ranked[0].score}/10${ranked[0].score===ranked[1].score?' (حُسم التعادل بالسرعة)':''}. الترتيب يعكس تقييمك أنت.`;
+      }
+      function setStatus(message,isError=false){const el=$('runStatus');el.textContent=message;el.style.color=isError?'#ffaaaa':''}
+      async function submit(){
+        if(state.running)return;
+        const prompt=$('prompt').value.trim();
+        if(!prompt){setStatus('اكتب الطلب أولًا.',true);$('prompt').focus();return}
+        const targets=[];
+        if($('useGemini').checked){const key=$('geminiKey').value.trim(),model=$('geminiModel').value.trim();targets.push({provider:'Gemini',key,model,fn:callGemini})}
+        if($('useGroq').checked){const key=$('groqKey').value.trim(),model=$('groqModel').value.trim();targets.push({provider:'Groq',key,model,fn:callGroq})}
+        if(!targets.length){setStatus('فعّل نموذجًا واحدًا على الأقل.',true);return}
+        if(targets.some(x=>!x.model)){setStatus('أدخل اسم النموذج لكل مزود مفعّل.',true);return}
+        state.running=true;$('sendBtn').disabled=true;$('sendBtn').textContent='جارٍ الإرسال…';
+        state.results=[];
+        const selected=targets.map(t=>t.provider).join(' و');
+        setStatus(`جارٍ إرسال الطلب إلى ${selected} بالتوازي. المفاتيح لا تُحفظ.`);
+        const tasks=targets.map(async target=>{
+          if(!target.key)return makeError(target.provider,target.model,{message:`لم يُستدعَ ${target.provider}: أدخل مفتاح API في الأعلى.`});
+          try{return await target.fn(prompt,target.key,target.model)}catch(error){return makeError(target.provider,target.model,error)}
+        });
+        state.results=await Promise.all(tasks);
+        renderResults();
+        const success=state.results.filter(x=>!x.error).length;
+        const failures=state.results.length-success;
+        setStatus(success?`اكتملت ${success} إجابة${failures?`، وتعذّر ${failures}`:''}. قيّم الدقة يدويًا.`:'لم تكتمل أي إجابة. راجع رسالة الخطأ والمفتاح/النموذج. ',!success);
+        state.running=false;$('sendBtn').disabled=false;$('sendBtn').innerHTML='إرسال إلى النماذج <span aria-hidden="true">↗</span>';
+      }
+      $('sendBtn').addEventListener('click',submit);
+      $('prompt').addEventListener('keydown',(event)=>{if((event.ctrlKey||event.metaKey)&&event.key==='Enter')submit()});
+      $('clearKeysBtn').addEventListener('click',()=>{$('geminiKey').value='';$('groqKey').value='';setStatus('مُسحت المفاتيح من حقول الصفحة. لا توجد مفاتيح محفوظة محليًا.')});
+      function createReport(){
+        const prompt=$('prompt').value.trim();
+        const lines=['ميزان — تقرير مقارنة النماذج',`التاريخ: ${new Date().toLocaleString('ar-SA')}`,'','الطلب:',prompt||'(غير متاح)','', 'الترتيب حسب تقييم المستخدم للدقة، ثم السرعة عند التعادل.',''];
+        sortedResults().forEach((item,index)=>{
+          lines.push(`${index+1}. ${item.provider} — النموذج: ${item.model}`);
+          lines.push(`السرعة: ${item.elapsed===null?'غير متاحة':item.elapsed.toFixed(2)+' ثانية'}`);
+          lines.push(`تقييم الدقة: ${item.score===null?'لم يُقيّم':item.score+'/10'}`);
+          if(item.error)lines.push(`الحالة: ${item.error}`);else lines.push('الإجابة:',item.text);
+          lines.push('','─'.repeat(44),'');
+        });
+        lines.push('ملاحظة: لم يُستخدم أي نموذج للحكم على الدقة؛ التقييم يدوي من المستخدم.');
+        return lines.join('\n');
+      }
+      async function copyReport(){
+        const report=createReport();
+        try{await navigator.clipboard.writeText(report);setStatus('تم نسخ تقرير المقارنة إلى الحافظة.')}
+        catch(error){const area=document.createElement('textarea');area.value=report;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();setStatus(ok?'تم نسخ تقرير المقارنة إلى الحافظة.':'تعذر النسخ تلقائيًا؛ استخدم زر التصدير.',!ok)}
+      }
+      function downloadReport(){
+        const blob=new Blob([createReport()],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`mizan-comparison-${new Date().toISOString().slice(0,10)}.txt`;document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);setStatus('تم تنزيل التقرير على جهازك.');
+      }
+      $('copyBtn').addEventListener('click',copyReport);$('downloadBtn').addEventListener('click',downloadReport);
+      initLock();
+    })();
+  </script>
+</body>
+</html>
